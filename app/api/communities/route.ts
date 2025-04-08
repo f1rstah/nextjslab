@@ -10,7 +10,7 @@ type Community = {
     avatar: string;
 };
 
-const dataPath = path.join(process.cwd(), 'public', 'communities.json');
+const dataPath = path.join(process.cwd(), '/tmp', 'communities.json');
 
 // GET-запрос (получить список сообществ)
 export async function GET() {
