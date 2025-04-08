@@ -3,21 +3,27 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 
-export default function Communities() {
-    const [communities, setCommunities] = useState<
-        { id: number; name: string; description: string; avatar: string }[]
-    >([]);
-    const [newCommunity, setNewCommunity] = useState({
+type Community = {
+    id: number;
+    name: string;
+    description: string;
+    avatar: string;
+};
+
+export default function CommunitiesPage() {
+    const [communities, setCommunities] = useState<Community[]>([]);
+    const [newCommunity, setNewCommunity] = useState<Omit<Community, 'id'>>({
         name: '',
         description: '',
         avatar: ''
     });
 
-    // Загрузка данных из JSON-файла
+    // Загрузка данных
     useEffect(() => {
-        fetch('/communities.json')
-            .then((response) => response.json())
-            .then((data) => setCommunities(data));
+        fetch('/api/communities')
+            .then((res) => res.json())
+            .then((data) => setCommunities(data))
+            .catch((error) => console.error('Error loading communities:', error));
     }, []);
 
     // Универсальный обработчик изменений
@@ -29,15 +35,24 @@ export default function Communities() {
     };
 
     // Создание нового сообщества
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const newId = communities.length + 1; // Генерация нового ID
-        const updatedCommunities = [
-            ...communities,
-            { id: newId, ...newCommunity }
-        ];
-        setCommunities(updatedCommunities);
-        setNewCommunity({ name: '', description: '', avatar: '' }); // Очистка формы
+        try {
+            const response = await fetch('/api/communities', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newCommunity),
+            });
+
+            if (response.ok) {
+                // Обновляем список после успешного создания
+                const updatedData = await fetch('/api/communities').then((res) => res.json());
+                setCommunities(updatedData);
+                setNewCommunity({ name: '', description: '', avatar: '' });
+            }
+        } catch (error) {
+            console.error('Error creating community:', error);
+        }
     };
 
     return (

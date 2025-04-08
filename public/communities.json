@@ -10,5 +10,11 @@
     "name": "Собачий рай",
     "description": "Сообщество для владельцев собак. Обсуждаем тренировки и уход.",
     "avatar": "/dog.jpg"
+  },
+  {
+    "id": 3,
+    "name": "testapi",
+    "description": "testapi",
+    "avatar": "https://steamuserimages-a.akamaihd.net/ugc/1835785246686985117/F22B3160E178C372B2E160FDAE0D39DB0F35585E/?imw=512&amp;imh=341&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true"
   }
 ]

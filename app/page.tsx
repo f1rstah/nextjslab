@@ -39,7 +39,7 @@ export default function Home() {
                 </p>
 
                 {/* Кнопка перехода к сообществам */}
-                <Link href="/communities">
+                <Link href="/api/communities/route">
                     <button style={{
                         padding: '10px 20px',
                         fontSize: '1rem',
